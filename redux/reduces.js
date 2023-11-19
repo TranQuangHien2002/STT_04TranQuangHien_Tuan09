@@ -56,7 +56,29 @@ function reducer(state = undefined, action) {
       // Make sure you return the state here or the change won't be reflected
       return { ...state };
 
-      
+      case "edit":
+        var updatedTodo = action.account.todo.map((item) =>
+          item === action.jobId ? action.newJob : item
+        );
+        action.account.todo = updatedTodo;
+        fetch(
+          `https://65598cb4e93ca47020aa4632.mockapi.io/todo/${action.account.id}`,
+          {
+            method: "PUT",
+            cache: "no-cache",
+            body: JSON.stringify(action.account),
+            headers: new Headers({
+              "Content-Type": "application/json",
+            }),
+          }
+        )
+          .then((x) => x.json())
+          .then((data) => {
+            // Return the updated state
+            return { ...data };
+          });
+  
+        return { ...state };
 
     default:
       return state;

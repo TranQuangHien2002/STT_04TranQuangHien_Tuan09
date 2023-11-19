@@ -4,7 +4,7 @@ import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { mapDispatchToProps, mapStateToProps } from "../redux/map";
 
-var screen_03 = ({ navigation, account, put }) => {
+var screen_03 = ({ navigation, account, put , edit, route}) => {
   console.log(account);
   var [request, setRequest] = React.useState("")
   return (
@@ -68,15 +68,22 @@ var screen_03 = ({ navigation, account, put }) => {
             marginTop: 40,
           }}
           onPress={() => {
-            put(account, request);
-            navigation.navigate("screen_02", account);
-          }}
-        >
-          <Text style={{ fontSize: 15, fontWeight: "400", color: "white" }}>
-            FINISH
-          </Text>
-          <AntDesign name="arrowright" size={20} color="white" />
-        </TouchableOpacity>
+        const { jobId, isEdit } = route.params || {};
+        if (isEdit) {
+          // Call the edit action if it's an edit
+          edit(account, jobId, request);
+        } else {
+          // Otherwise, call the put action
+          put(account, request);
+        }
+        navigation.navigate("screen_02", account);
+      }}
+    >
+      <Text style={{ fontSize: 15, fontWeight: "400", color: "white" }}>
+        {route.params?.isEdit ? "EDIT" : "FINISH"}
+      </Text>
+      <AntDesign name="arrowright" size={20} color="white" />
+    </TouchableOpacity>
 
         <Image style={{ height: 200, width: 200, marginTop: 100 }} source={require('../image/06815f4508d7df8986c6.jpg')} />
       </View>

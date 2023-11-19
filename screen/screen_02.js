@@ -12,7 +12,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { mapDispatchToProps, mapStateToProps } from "../redux/map";
 
-const screen_02 = ({ navigation, route, account, remove }) =>{
+const screen_02 = ({ navigation, route, account, remove, edit }) => {
   var account = route.params;
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -78,6 +78,14 @@ const screen_02 = ({ navigation, route, account, remove }) =>{
                   }}
                 >
                   <AntDesign name="delete" size={24} color="red" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    // Navigate to the edit screen with the current job
+                    navigation.navigate("screen_03", { account, jobId: item, isEdit: true });
+                  }}
+                >
+                  <AntDesign name="edit" size={24} color="blue" />
                 </TouchableOpacity>
               </View>
             )}
